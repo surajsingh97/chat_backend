@@ -23,12 +23,14 @@ mongoose.connect(db, (err) => {
   }
 });
 
-const postroute = require("./user/router/user.route");
+const userRoute = require("./user/router/user.route");
+const friendRoute = require('./friend-list/router/friend.route')
 
 const port = 3000;
 app.use(cors());
 app.use("/static", express.static("assest"));
-app.use("/", postroute);
+app.use("/", userRoute);
+app.use("/", friendRoute);
 
 app.listen(port, () => {
   console.log("runing well");
