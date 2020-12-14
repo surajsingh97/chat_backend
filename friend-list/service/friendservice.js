@@ -36,3 +36,14 @@ exports.findfriendbyId = (userId) => {
         throw(err);
     }
 }
+
+exports.findExistingFriend = (userId, friendId)=>{
+    try
+    {
+        return friends.find({userId: userId, friends:{$elemMatch:{friendId : friendId}}});
+    }
+    catch(error)
+    {
+        throw error
+    }
+}

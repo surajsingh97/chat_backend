@@ -13,18 +13,34 @@ exports.func = (req,res) =>{
             const friendId = `${userId} ${personId}`
             friendService.findselfbyId(userId).then((data,err)=>{
                 if(data){
-                    friendService.findAndUpdateFriendId(userId,friendId);
-                    friendService.findfriendbyId(personId).then((data,err)=>{
-                        if(data){
-                            friendService.findAndUpdateFriendId(personId,friendId);
+
+                    console.log("data::: ",data);
+                    friendService.findExistingFriend(userId,friendId).then((data,err)=>{
+                        if(data.length){
+                            console.log("user exist",data);
+                            res.send("User Already Exist");
                         }else{
-                            const personfriendData = friend.create({userId: personId,friends:[{friendId: friendId}] });
+                            friendService.findAndUpdateFriendId(userId,friendId).then(data =>{
+                                console.log("updated data of user", data);
+                                friendService.findfriendbyId(personId).then((data,err)=>{
+                                    if(data){
+                                        console.log("person updated",data)
+                                        friendService.findAndUpdateFriendId(personId,friendId);
+                                    }else{
+                                        const personfriendData = friend.create({userId: personId,friends:[{friendId: friendId}] });
+                                    }
+                                });
+                            });
+                            
                         }
                     })
+                    
                 }else{
                        const selffriendData = friend.create({userId: userId,friends:[{friendId: friendId}] });
                        friendService.findfriendbyId(personId).then((data,err)=>{
+                           console.log(data,"this is data1");
                            if(data){
+                               console.log(data,"this is data2");
                                friendService.findAndUpdateFriendId(personId,friendId);
                            }else{
                                const personfriendData = friend.create({userId: personId,friends:[{friendId: friendId}] });
