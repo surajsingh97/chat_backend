@@ -28,3 +28,11 @@ exports.findAndUpdateFriendId = (userId, friendId)=>{
         throw error
     }
 }
+
+exports.findfriendbyId = (userId) => {
+    try{
+        return friends.findOne({userId: userId});
+    }catch(err){
+        throw(err);
+    }
+}
