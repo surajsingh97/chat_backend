@@ -27,7 +27,7 @@ exports.verifyToken=(req,res,next)=>  {
 exports.createUser = async (req,res)=>{
     userObj=req.body;
     try{
-    const user = User.create(userObj);
+    const user = User.create(userObj);  
     res.send(user);
     }catch(err){
         res.send(err);
