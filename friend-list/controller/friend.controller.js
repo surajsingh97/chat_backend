@@ -53,3 +53,14 @@ exports.func = (req,res) =>{
         }    })
 }
 
+exports.getFriend= (req,res) => {
+    const id = req.body.userId;
+    friendService.findallFriend(id).then(data =>{
+        if(data){
+            res.send(data);
+        }else{
+            res.send("No friends")
+        }
+    })
+}
+

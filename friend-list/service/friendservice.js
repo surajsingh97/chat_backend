@@ -47,3 +47,11 @@ exports.findExistingFriend = (userId, friendId)=>{
         throw error
     }
 }
+
+exports.findallFriend = (userId) => {
+    try{
+        return friends.find({userId: userId});
+    }catch(err){
+        throw err;
+    }
+}

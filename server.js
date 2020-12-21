@@ -7,8 +7,9 @@ const io = require('socket.io')(http);
 const mongoose = require("mongoose");
 const db = "mongodb://localhost/chatdb";
 const userRoute = require("./user/router/user.route");
-const friendRoute = require('./friend-list/router/friend.route')
+const friendRoute = require('./friend-list/router/friend.route');
 const whitelist = ['http://localhost:4200', 'http://example2.com'];
+import {chatControl} from './chat/router/sendMessage'
 const corsOptions = {
   credentials: true, // This is important.
   origin: (origin, callback) => {
@@ -28,7 +29,7 @@ app.use(
 app.use(cors(corsOptions));
 app.use("/", userRoute);
 app.use("/", friendRoute);
-
+app.use("/", chatControl);
 mongoose.connect(db, (err) => {
   if (err) {
     console.log("error!" + err);
@@ -40,7 +41,12 @@ mongoose.connect(db, (err) => {
 io.sockets.on('connection', function(socket){
   socket.on('message',(message)=>{
     console.log(message);
+
     socket.broadcast.emit('new-message', message);
+    })
+
+    socket.on('disconnect',()=>{
+      console.log("user gaya")
     })
 });
 
