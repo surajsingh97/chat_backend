@@ -38,10 +38,10 @@ mongoose.connect(db, (err) => {
 });
 
 io.sockets.on('connection', function(socket){
-  console.log("User Connected");
   socket.on('message',(message)=>{
     console.log(message);
-  })
+    socket.broadcast.emit('new-message', message);
+    })
 });
 
 http.listen(3000, () => {
