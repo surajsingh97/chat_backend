@@ -8,7 +8,7 @@ const friendSchema = mongoose.Schema({
         unique: true
     },
     friends: {
-        type: [ { friendId : {type: String, default: '', unique: false} } ],
+        type: [ { friendId : {type: String, default: '', unique: false},userName : String } ],
         default: undefined
     }
 });

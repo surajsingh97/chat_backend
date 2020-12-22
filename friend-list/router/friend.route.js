@@ -4,6 +4,6 @@ const friendController=require('../controller/friend.controller')
 const userController=require('../../user/controller/user.controller')
 
 router.post('/Add',userController.verifyToken,friendController.func);
-router.post('/getFriend',userController.verifyToken,friendController.getFriend);
+router.post('/getFriend',friendController.getFriend);
 
 module.exports=router;

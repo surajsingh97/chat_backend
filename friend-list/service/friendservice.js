@@ -18,10 +18,10 @@ exports.findselfbyId = (id) =>{
     }
 }
 
-exports.findAndUpdateFriendId = (userId, friendId)=>{
+exports.findAndUpdateFriendId = (userId, friendId, name)=>{
     try
     {
-        return friends.findOneAndUpdate({ userId: userId},{$push: {friends: {friendId: friendId}}},{new : true});
+        return friends.findOneAndUpdate({ userId: userId},{$push: {friends: {friendId: friendId, userName: name }}},{new : true});
     }
     catch(error)
     {
