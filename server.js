@@ -9,7 +9,7 @@ const db = "mongodb://localhost/chatdb";
 const userRoute = require("./user/router/user.route");
 const friendRoute = require('./friend-list/router/friend.route');
 const whitelist = ['http://localhost:4200', 'http://example2.com'];
-import {chatControl} from './chat/router/sendMessage'
+const chatRoute = require('./chat/routes/sendMessage.route')
 const corsOptions = {
   credentials: true, // This is important.
   origin: (origin, callback) => {
@@ -29,7 +29,7 @@ app.use(
 app.use(cors(corsOptions));
 app.use("/", userRoute);
 app.use("/", friendRoute);
-app.use("/", chatControl);
+app.use("/", chatRoute);
 mongoose.connect(db, (err) => {
   if (err) {
     console.log("error!" + err);
@@ -50,6 +50,6 @@ io.sockets.on('connection', function(socket){
     })
 });
 
-http.listen(3000, () => {
+http.listen(8000, () => {
   console.log('listening on *:3000');
 });
