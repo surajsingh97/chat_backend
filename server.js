@@ -25,7 +25,7 @@ app.use(
     extended: true,
   })
 );
-app.use(cors());
+app.use(cors(corsOptions));
 app.use("/", userRoute);
 app.use("/", friendRoute);
 
