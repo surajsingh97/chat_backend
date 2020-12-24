@@ -1,6 +1,8 @@
+const express=require('express');
+const router=express.Router();
 const sendMessage = require('../controllers/sendMessage');
 const tokenService = require('../../user/controller/user.controller');
 
-module.exports = (app)=>{
-    return app.post('/user/send-message', tokenService.verifyToken, sendMessage);
-}
+router.post('/user/send-message', sendMessage.sendMessage);
+
+module.exports=router;

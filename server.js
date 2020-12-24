@@ -8,6 +8,7 @@ const mongoose = require("mongoose");
 const db = "mongodb://localhost/chatdb";
 const userRoute = require("./user/router/user.route");
 const friendRoute = require('./friend-list/router/friend.route')
+const messageRoute = require('./chat/routes/sendMessage.route')
 const whitelist = ['http://localhost:4200', 'http://example2.com'];
 const corsOptions = {
   credentials: true, // This is important.
@@ -25,9 +26,10 @@ app.use(
     extended: true,
   })
 );
-app.use(cors(corsOptions));
+app.use(cors());
 app.use("/", userRoute);
 app.use("/", friendRoute);
+app.use('/',messageRoute);
 
 mongoose.connect(db, (err) => {
   if (err) {

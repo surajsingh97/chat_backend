@@ -12,7 +12,7 @@ const sendMessageSchema = mongoose.Schema({
                 message: { type: String, required: true},
                 createdOn: { type: String, required: true},
                 senderId: { type: String, required: true},
-                receiverId: { type: String, required: true}
+                receiverId:{ type: String, required: true}
             }
         ],
         default: undefined

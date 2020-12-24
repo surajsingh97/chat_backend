@@ -1,7 +1,7 @@
 const sendMessageService = require('../services/sendMessage.service');
 
-module.exports = (req, res)=> {
-    
+exports.sendMessage = (req, res)=> {
+    console.log(req.body);
     sendMessageService.findSendMessageDataByFriendId(req.body.friendId)
     .then(data=> {
         if(data){
@@ -22,6 +22,7 @@ module.exports = (req, res)=> {
                 res.json({result: 'Messaged Successfully'});
             })
             .catch(err => {
+                console.log(err);
                 res.json({ result:'Something Went Wrong!!'})
             })
         }
