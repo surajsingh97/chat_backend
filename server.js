@@ -8,7 +8,8 @@ const mongoose = require("mongoose");
 const db = "mongodb://localhost/chatdb";
 const userRoute = require("./user/router/user.route");
 const friendRoute = require('./friend-list/router/friend.route')
-const messageRoute = require('./chat/routes/sendMessage.route')
+const messageControl = require('./chat/controllers/sendMessage')
+const messageRoute = require('./chat/routes/showSendMessage.route');
 const whitelist = ['http://localhost:4200', 'http://example2.com'];
 const corsOptions = {
   credentials: true, // This is important.
@@ -40,11 +41,27 @@ mongoose.connect(db, (err) => {
 });
 
 io.sockets.on('connection', function(socket){
-  console.log("User Connected");
+  // console.log("User Connected");
   socket.on('message',(message)=>{
     console.log(message);
+    messageControl.sendMessage(message);
     socket.broadcast.emit('new-message', message);
   })
+
+  socket.on('typing', (data)=>{
+    console.log(data);
+    socket.broadcast.emit('typing', data);
+  })
+
+  socket.on('nottyping', data =>{
+    socket.broadcast.emit('nottyping',data);
+  })
+
+  socket.on('online',data =>{
+    console.log('im online')
+    socket.broadcast.emit('onlogin',data);
+  })
+  
 });
 
 http.listen(3000, () => {

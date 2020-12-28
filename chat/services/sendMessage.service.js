@@ -3,13 +3,12 @@ const sendMessage = require('../models/sendMessage.model');
 exports.sendMessageObj = (data)=> {
     try
     {   
-        const createdOn = new Date();
         return new sendMessage({
             friendId: data.friendId,
             chats: [
                 {
                     message: data.message,
-                    createdOn: createdOn,
+                    createdOn: data.timeStamp,
                     senderId: data.senderId,
                     receiverId: data.receiverId
                 }
@@ -47,11 +46,10 @@ exports.findSendMessageDataByFriendId = (friendId)=> {
 exports.findAndupdateSendMessageData = (data)=> {
     try
     {   
-        const createdOn = new Date();
         return sendMessage.findOneAndUpdate({ friendId: data.friendId},{$push: {chats: 
             {
                 message: data.message,
-                createdOn: createdOn,
+                createdOn: data.timeStamp,
                 senderId: data.senderId,
                 receiverId: data.receiverId
             }}},{new : true});   

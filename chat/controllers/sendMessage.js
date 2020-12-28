@@ -1,29 +1,29 @@
 const sendMessageService = require('../services/sendMessage.service');
 
-exports.sendMessage = (req, res)=> {
+exports.sendMessage = (req)=> {
     console.log(req.body);
-    sendMessageService.findSendMessageDataByFriendId(req.body.friendId)
+    sendMessageService.findSendMessageDataByFriendId(req.friendId)
     .then(data=> {
         if(data){
 
-            sendMessageService.findAndupdateSendMessageData(req.body)
+            sendMessageService.findAndupdateSendMessageData(req)
             .then(data=>{
-                res.json({result: 'Messaged Successfully'});
+                console.log({result: 'Messaged Successfully'});
             })
             .catch(err => {
-                res.json({ result:'Something Went Wrong!!'})
+                console.log({ result:'Something Went Wrong!!'})
             })
         }
         else{
             
-            const sendMessageObj = sendMessageService.sendMessageObj(req.body);
+            const sendMessageObj = sendMessageService.sendMessageObj(req);
             sendMessageService.saveData(sendMessageObj)
             .then(data=>{
-                res.json({result: 'Messaged Successfully'});
+                console.log({result: 'Messaged Successfully'});
             })
             .catch(err => {
                 console.log(err);
-                res.json({ result:'Something Went Wrong!!'})
+                console.log({ result:'Something Went Wrong!!'})
             })
         }
     })
