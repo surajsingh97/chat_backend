@@ -8,9 +8,10 @@ exports.sendMessageObj = (data)=> {
             chats: [
                 {
                     message: data.message,
-                    createdOn: data.timeStamp,
+                    createdOn: data.createdOn,
                     senderId: data.senderId,
-                    receiverId: data.receiverId
+                    receiverId: data.receiverId,
+                    senderName: data.senderName
                 }
             ],
         });
@@ -49,9 +50,10 @@ exports.findAndupdateSendMessageData = (data)=> {
         return sendMessage.findOneAndUpdate({ friendId: data.friendId},{$push: {chats: 
             {
                 message: data.message,
-                createdOn: data.timeStamp,
+                createdOn: data.createdOn,
                 senderId: data.senderId,
-                receiverId: data.receiverId
+                receiverId: data.receiverId,
+                senderName: data.senderName
             }}},{new : true});   
     }
     catch(error)

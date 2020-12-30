@@ -5,15 +5,16 @@ const sendMessageSchema = mongoose.Schema({
         type: String,
         unique: true,
         required: true
-    },
+    },  
     chats: {
         type: [
             {
                 message: { type: String, required: true},
                 createdOn: { type: String, required: true},
                 senderId: { type: String, required: true},
-                receiverId:{ type: String, required: true}
-            }
+                receiverId:{ type: String, required: true},
+                senderName:{ type: String, required: true}
+            }   
         ],
         default: undefined
     }

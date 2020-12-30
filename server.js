@@ -58,7 +58,7 @@ io.sockets.on('connection', function(socket){
   })
 
   socket.on('online',data =>{
-    console.log('im online')
+    console.log('im online');
     socket.broadcast.emit('onlogin',data);
   })
   
