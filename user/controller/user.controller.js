@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 
 exports.verifyToken=(req,res,next)=>  {
     //get bearer-header vald
-    const bearerHeader = req.headers['authorization'];
+    const bearerHeader = req.headers.authorization;
     //check bearer-header is undefined
     if (typeof bearerHeader !== 'undefined') {
         //split at the space
@@ -24,7 +24,7 @@ exports.verifyToken=(req,res,next)=>  {
 
 }
 
-exports.createUser = async (req,res)=>{
+exports.createUser =  (req,res)=>{
     userObj=req.body;
     try{
     const user = User.create(userObj);  

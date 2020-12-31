@@ -7,8 +7,10 @@ const io = require('socket.io')(http);
 const mongoose = require("mongoose");
 const db = "mongodb://localhost/chatdb";
 const userRoute = require("./user/router/user.route");
-const friendRoute = require('./friend-list/router/friend.route')
-const messageControl = require('./chat/controllers/sendMessage')
+const addRoute = require('././friends/routes/addFriend.route');
+const deleteRoute = require('././friends/routes/deleteFriend.route');
+const showRoute = require('././friends/routes/showFriend.route');
+const messageControl = require('./chat/controllers/sendMessage');
 const messageRoute = require('./chat/routes/showSendMessage.route');
 const whitelist = ['http://localhost:4200', 'http://example2.com'];
 const corsOptions = {
@@ -29,7 +31,9 @@ app.use(
 );
 app.use(cors());
 app.use("/", userRoute);
-app.use("/", friendRoute);
+app.use("/", addRoute);
+app.use('/', deleteRoute);
+app.use("/", showRoute);
 app.use('/',messageRoute);
 
 mongoose.connect(db, (err) => {
@@ -57,7 +61,7 @@ io.sockets.on('connection', function(socket){
     socket.broadcast.emit('nottyping',data);
   })
 
-  socket.on('online',data =>{
+  socket.on('onlogin',data =>{
     console.log('im online');
     socket.broadcast.emit('onlogin',data);
   })
