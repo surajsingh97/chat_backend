@@ -4,8 +4,7 @@ var cors = require("cors");
 const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
-const mongoose = require("mongoose");
-const db = "mongodb://localhost/chatdb";
+const db = require('./utility/service/helper/db');
 const userRoute = require("./user/router/user.route");
 const addRoute = require('././friends/routes/addFriend.route');
 const deleteRoute = require('././friends/routes/deleteFriend.route');
@@ -35,14 +34,6 @@ app.use("/", addRoute);
 app.use('/', deleteRoute);
 app.use("/", showRoute);
 app.use('/',messageRoute);
-
-mongoose.connect(db, (err) => {
-  if (err) {
-    console.log("error!" + err);
-  } else {
-    console.log("database connected");
-  }
-});
 
 io.sockets.on('connection', function(socket){
   // console.log("User Connected");

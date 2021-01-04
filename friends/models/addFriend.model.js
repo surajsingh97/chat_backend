@@ -5,8 +5,8 @@ const friendSchema = mongoose.Schema({
         type: String,
         unique: true,
         required: true
-    },
-    
+    }, 
+   
     friends : {
         type: [ { friendId : {type: String, default: '', unique: false},userName : String ,} ],
         default: undefined
