@@ -35,16 +35,16 @@ app.use('/', deleteRoute);
 app.use("/", showRoute);
 app.use('/',messageRoute);
 
+user = [];
+
 io.sockets.on('connection', function(socket){
   // console.log("User Connected");
   socket.on('message',(message)=>{
-    console.log(message);
     messageControl.sendMessage(message);
     socket.broadcast.emit('new-message', message);
   })
 
   socket.on('typing', (data)=>{
-    console.log(data);
     socket.broadcast.emit('typing', data);
   })
 
@@ -53,9 +53,15 @@ io.sockets.on('connection', function(socket){
   })
 
   socket.on('onlogin',data =>{
-    console.log('im online');
-    socket.broadcast.emit('onlogin',data);
+   user.push(data);
+   console.log(user);
+   io.emit('login', user);
   })
+
+  socket.on('disconnect', () => {
+    console.log('user disconnected');
+  });
+
   
 });
 

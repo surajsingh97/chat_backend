@@ -37,13 +37,13 @@ exports.createUser =  (req,res)=>{
 exports.loginUser = (req,res)=>{
     let userData=req.body;
     console.log(userData);  
-    User.findOne({email:userData.email},(error,user)=>{
+    User.findOne({userName:userData.email},(error,user)=>{
         if(error){
             console.log(error);
         }else{
             if(!user){
                 res.status(400).send({
-                    message:'Invalid Email',
+                    message:'Invalid Username',
                 })
             }else{
                 console.log(user.password,"t")
