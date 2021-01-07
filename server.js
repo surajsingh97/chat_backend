@@ -42,28 +42,30 @@ app.use('/',messageRoute);
 io.sockets.on('connection', function(socket){
   // console.log("User Connected");
   socket.on('joined', data =>{
+    console.log(data);
     const user = users.userjoin(socket.id,data.userName,data.id)
-    socket.join(user.room);
-    
+    socket.join(user[0].room);
+    console.log("this is it",user[0].room)
   })
   socket.on('message',(message)=>{
     const user = users.getcurrentUser(socket.id)
     messageControl.sendMessage(message);
-    socket.broadcast.to(user.room).emit('new-message', message);
+    console.log('dam',user)
+    socket.broadcast.emit('new-message', message);
   })
 
   socket.on('typing', (data)=>{
     const user = users.getcurrentUser(socket.id)
-    socket.broadcast.to(user.room).emit('typing', data);
+    console.log(user,"this is typing")
+    socket.broadcast.emit('typing', data);
   })
 
   socket.on('nottyping', data =>{
     const user = users.getcurrentUser(socket.id)
-    socket.broadcast.to(user.room).emit('nottyping',data);
+    socket.broadcast.emit('nottyping',data);
   })
 
   socket.on('onlogin',data =>{
-    console.log(data);
     users.onlineUsers(data);
   })
   
@@ -78,7 +80,6 @@ io.sockets.on('connection', function(socket){
    users.userLeave(data).then(data=>{
      if(data.deletedCount === 1){
        onlineUser.find().then(data =>{
-       console.log(data);
        io.emit('logout',temp);
       })
      }
