@@ -12,6 +12,9 @@ const showRoute = require('././friends/routes/showFriend.route');
 const messageControl = require('./chat/controllers/sendMessage');
 const messageRoute = require('./chat/routes/showSendMessage.route');
 const whitelist = ['http://localhost:4200', 'http://example2.com'];
+const users = require('./utility/service/user');
+const onlineUser = require('./utility/service/activeuser.model');
+const { Socket } = require("dgram");
 const corsOptions = {
   credentials: true, // This is important.
   origin: (origin, callback) => {
@@ -35,33 +38,52 @@ app.use('/', deleteRoute);
 app.use("/", showRoute);
 app.use('/',messageRoute);
 
-user = [];
 
 io.sockets.on('connection', function(socket){
   // console.log("User Connected");
+  socket.on('joined', data =>{
+    const user = users.userjoin(socket.id,data.userName,data.id)
+    socket.join(user.room);
+    
+  })
   socket.on('message',(message)=>{
+    const user = users.getcurrentUser(socket.id)
     messageControl.sendMessage(message);
-    socket.broadcast.emit('new-message', message);
+    socket.broadcast.to(user.room).emit('new-message', message);
   })
 
   socket.on('typing', (data)=>{
-    socket.broadcast.emit('typing', data);
+    const user = users.getcurrentUser(socket.id)
+    socket.broadcast.to(user.room).emit('typing', data);
   })
 
   socket.on('nottyping', data =>{
-    socket.broadcast.emit('nottyping',data);
+    const user = users.getcurrentUser(socket.id)
+    socket.broadcast.to(user.room).emit('nottyping',data);
   })
 
   socket.on('onlogin',data =>{
-   user.push(data);
-   console.log(user);
-   io.emit('login', user);
+    console.log(data);
+    users.onlineUsers(data);
   })
-
-  socket.on('disconnect', () => {
-    console.log('user disconnected');
-  });
-
+  
+  socket.on('user', data =>{
+   users.getOnlineusers().then(data=>{
+      io.emit('login', data);
+    })
+  })
+  
+  socket.on('onlogout', data => {
+    const temp = data;
+   users.userLeave(data).then(data=>{
+     if(data.deletedCount === 1){
+       onlineUser.find().then(data =>{
+       console.log(data);
+       io.emit('logout',temp);
+      })
+     }
+   });
+  })
   
 });
 

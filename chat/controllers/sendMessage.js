@@ -1,7 +1,6 @@
 const sendMessageService = require('../services/sendMessage.service');
 
 exports.sendMessage = (req)=> {
-    console.log(req.body);
     sendMessageService.findSendMessageDataByFriendId(req.friendId)
     .then(data=> {
         if(data){
