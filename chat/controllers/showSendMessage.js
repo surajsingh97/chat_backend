@@ -1,4 +1,5 @@
 const sendMessageService = require('../services/sendMessage.service');
+const message = require('../models/sendMessage.model')
 
 exports.showMessages = (req, res)=> {
 
@@ -10,3 +11,8 @@ exports.showMessages = (req, res)=> {
         res.json({ result:'Something Went Wrong!!'})
     })
 }
+// exports.showSendMessageData = (req,res)=>{
+//     message.find().then(data=>{
+        
+//     })
+// }

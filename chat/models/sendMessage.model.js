@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const sendMessageSchema = mongoose.Schema({
+    
     friendId: {
         type: String,
         unique: true,

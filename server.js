@@ -14,7 +14,6 @@ const messageRoute = require('./chat/routes/showSendMessage.route');
 const whitelist = ['http://localhost:4200', 'http://example2.com'];
 const users = require('./utility/service/user');
 const onlineUser = require('./utility/service/activeuser.model');
-const { Socket } = require("dgram");
 const corsOptions = {
   credentials: true, // This is important.
   origin: (origin, callback) => {
@@ -42,21 +41,17 @@ app.use('/',messageRoute);
 io.sockets.on('connection', function(socket){
   // console.log("User Connected");
   socket.on('joined', data =>{
-    console.log(data);
-    const user = users.userjoin(socket.id,data.userName,data.id)
-    socket.join(user[0].room);
-    console.log("this is it",user[0].room)
+    const user = users.userjoin(socket.id,data.id)
+    socket.join(user.room);
   })
   socket.on('message',(message)=>{
     const user = users.getcurrentUser(socket.id)
     messageControl.sendMessage(message);
-    console.log('dam',user)
     socket.broadcast.emit('new-message', message);
   })
 
   socket.on('typing', (data)=>{
     const user = users.getcurrentUser(socket.id)
-    console.log(user,"this is typing")
     socket.broadcast.emit('typing', data);
   })
 
@@ -85,9 +80,16 @@ io.sockets.on('connection', function(socket){
      }
    });
   })
-  
+
+  socket.on('getlastMessage', data =>{
+   users.showSendMessageData(data).then(data=>{
+     io.emit('notify', data);
+  })
 });
+
+});
+
 
 http.listen(3000, () => {
   console.log('listening on *:3000');
-});
+})

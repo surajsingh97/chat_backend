@@ -1,7 +1,8 @@
 const joinedUsers = [];
 const onlineUser = require('./activeuser.model');
-exports.userjoin = (id,username,room)=>{
-    const user = {id,username,room};
+const message = require('../../chat/models/sendMessage.model')
+exports.userjoin = (id,room)=>{
+    const user = {id,room};
     joinedUsers.push(user);
     return joinedUsers;
 }
@@ -28,4 +29,9 @@ exports.getcurrentUser = (id) => {
 exports.getOnlineusers =  () =>{
     const data = onlineUser.find()
     return data;
+}
+
+exports.showSendMessageData = (data)=>{
+    const messages = message.find()
+    return messages
 }
