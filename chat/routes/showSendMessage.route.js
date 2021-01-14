@@ -4,6 +4,7 @@ const sendMessage = require('../controllers/showSendMessage');
 const tokenService = require('../../user/controller/user.controller');
 
 
+
 router.post('/show-messages',  sendMessage.showMessages);
-// router.post('/getAll',sendMessage.showSendMessageData);
+router.post('/getAll',sendMessage.showmessageData);
 module.exports=router;

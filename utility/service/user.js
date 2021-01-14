@@ -1,8 +1,8 @@
 const joinedUsers = [];
 const onlineUser = require('./activeuser.model');
 const message = require('../../chat/models/sendMessage.model')
-exports.userjoin = (id,room)=>{
-    const user = {id,room};
+exports.userjoin = (room)=>{
+    const user = {room};
     joinedUsers.push(user);
     return joinedUsers;
 }
@@ -23,7 +23,7 @@ exports.userLeave = (username) => {
 }
 
 exports.getcurrentUser = (id) => {
-    return joinedUsers.find(user => user.id === user.id);
+    return joinedUsers.find(user => user.room === user.room);
 }
 
 exports.getOnlineusers =  () =>{
@@ -31,7 +31,8 @@ exports.getOnlineusers =  () =>{
     return data;
 }
 
-exports.showSendMessageData = (data)=>{
-    const messages = message.find()
-    return messages
+exports.showlastmessageData = ()=>{
+    const chat =  message.find().select({ "chats": { "$slice": -1 }});
+    return chat;
+    
 }

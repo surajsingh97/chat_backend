@@ -41,7 +41,7 @@ app.use('/',messageRoute);
 io.sockets.on('connection', function(socket){
   // console.log("User Connected");
   socket.on('joined', data =>{
-    const user = users.userjoin(socket.id,data.id)
+    const user = users.userjoin(data.id)
     socket.join(user.room);
   })
   socket.on('message',(message)=>{
@@ -82,7 +82,7 @@ io.sockets.on('connection', function(socket){
   })
 
   socket.on('getlastMessage', data =>{
-   users.showSendMessageData(data).then(data=>{
+   users.showlastmessageData().then(data=>{
      io.emit('notify', data);
   })
 });

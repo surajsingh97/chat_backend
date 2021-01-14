@@ -11,8 +11,8 @@ exports.showMessages = (req, res)=> {
         res.json({ result:'Something Went Wrong!!'})
     })
 }
-// exports.showSendMessageData = (req,res)=>{
-//     message.find().then(data=>{
-        
-//     })
-// }
+
+exports.showmessageData = async (req,res)=>{
+    const chat = await  message.find().select({ "chats": { "$slice": -1 }});
+    res.json(chat)
+}
