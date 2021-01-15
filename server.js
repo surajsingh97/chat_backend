@@ -82,10 +82,11 @@ io.sockets.on('connection', function(socket){
   })
 
   socket.on('getlastMessage', data =>{
-   users.showlastmessageData().then(data=>{
-     io.emit('notify', data);
-  })
+    users.showlastmessageData(data).then(Data=>{
+      io.emit('notify',Data);
+    })
 });
+
 
 });
 

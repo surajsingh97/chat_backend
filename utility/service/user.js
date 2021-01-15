@@ -1,6 +1,7 @@
 const joinedUsers = [];
 const onlineUser = require('./activeuser.model');
-const message = require('../../chat/models/sendMessage.model')
+const message = require('../../chat/models/sendMessage.model');
+const friendService = require('../../friends/services/show.service');
 exports.userjoin = (room)=>{
     const user = {room};
     joinedUsers.push(user);
@@ -31,8 +32,17 @@ exports.getOnlineusers =  () =>{
     return data;
 }
 
-exports.showlastmessageData = ()=>{
-    const chat =  message.find().select({ "chats": { "$slice": -1 }});
-    return chat;
+exports.showlastmessageData = async (req)=>{
+    let friendList =  await friendService.showFriendList(req)
+    let chat = await message.find().select({ "chats": { "$slice": -1 }});
+    let arrayC = [];
+    await friendList.friends.forEach(function(element){
+       arrayC.push({
+       friendId:element.friendId,
+       userName:element.userName,
+       chat:(chat.find(e=>e.friendId===element.friendId)) || { chats:[{createdOn :''}]}
+       });  
+     });
+     return arrayC;
     
 }
