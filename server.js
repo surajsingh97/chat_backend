@@ -45,7 +45,7 @@ io.sockets.on('connection', function(socket){
     socket.join(user.room);
   })
   socket.on('message',(message)=>{
-    const user = users.getcurrentUser(socket.id)
+    const user = users.getcurrentUser(messa)
     messageControl.sendMessage(message);
     socket.broadcast.emit('new-message', message);
   })
@@ -82,7 +82,7 @@ io.sockets.on('connection', function(socket){
   })
 
   socket.on('getlastMessage', data =>{
-    users.showlastmessageData(data).then(Data=>{
+    users.showlastmessageData().then(Data=>{
       io.emit('notify',Data);
     })
 });

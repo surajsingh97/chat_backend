@@ -12,7 +12,7 @@ exports.getFriends = async (req, res)=> {
       chat:(chat.find(e=>e.friendId===element.friendId)) || { chats:[{createdOn :''}]}
       });  
     });
-    console.log(arrayC);
+   
     res.send(arrayC);
    }
 

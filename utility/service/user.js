@@ -24,7 +24,7 @@ exports.userLeave = (username) => {
 }
 
 exports.getcurrentUser = (id) => {
-    return joinedUsers.find(user => user.room === user.room);
+    return joinedUsers.find(user => user.room === id);
 }
 
 exports.getOnlineusers =  () =>{
@@ -32,17 +32,8 @@ exports.getOnlineusers =  () =>{
     return data;
 }
 
-exports.showlastmessageData = async (req)=>{
-    let friendList =  await friendService.showFriendList(req)
-    let chat = await message.find().select({ "chats": { "$slice": -1 }});
-    let arrayC = [];
-    await friendList.friends.forEach(function(element){
-       arrayC.push({
-       friendId:element.friendId,
-       userName:element.userName,
-       chat:(chat.find(e=>e.friendId===element.friendId)) || { chats:[{createdOn :''}]}
-       });  
-     });
-     return arrayC;
+exports.showlastmessageData = (req)=>{
+    let chat =  message.find().select({ "chats": { "$slice": -1 }});
+    return chat;
     
 }
