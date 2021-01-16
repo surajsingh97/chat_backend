@@ -36,17 +36,14 @@ exports.createUser =  (req,res)=>{
 
 exports.loginUser = (req,res)=>{
     let userData=req.body;
-    console.log(userData);  
     User.findOne({userName:userData.email},(error,user)=>{
         if(error){
-            console.log(error);
         }else{
             if(!user){
                 res.status(400).send({
                     message:'Invalid Username',
                 })
             }else{
-                console.log(user.password,"t")
                 bcrypt.compare(req.body.password, user.password, function (err, isMatch) {
                     if (!isMatch) {
                         res.status(400).send({
@@ -57,7 +54,6 @@ exports.loginUser = (req,res)=>{
                         const tok=tokenService.createToken(user);
                         const payload=jwt.verify(tok, 'secret_key');
                         const userName=payload.id.userName;
-                        console.log(userName);
                         res.send({tok,userName});
                     }
                     })

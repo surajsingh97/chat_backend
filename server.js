@@ -45,13 +45,13 @@ io.sockets.on('connection', function(socket){
     socket.join(user.room);
   })
   socket.on('message',(message)=>{
-    const user = users.getcurrentUser(messa)
+    const user = users.getcurrentUser(message.friendId)
     messageControl.sendMessage(message);
     socket.broadcast.emit('new-message', message);
   })
 
   socket.on('typing', (data)=>{
-    const user = users.getcurrentUser(socket.id)
+   const user = users.getcurrentUser(socket.id)
     socket.broadcast.emit('typing', data);
   })
 
