@@ -1,12 +1,7 @@
-const joinedUsers = [];
+
 const onlineUser = require('./activeuser.model');
 const message = require('../../chat/models/sendMessage.model');
 const friendService = require('../../friends/services/show.service');
-exports.userjoin = (room)=>{
-    const user = {room};
-    joinedUsers.push(user);
-    return joinedUsers;
-}
 
 exports.onlineUsers = (data) => {
     try
@@ -21,10 +16,6 @@ exports.onlineUsers = (data) => {
 
 exports.userLeave = (username) => {
     return onlineUser.remove({'userName': username});
-}
-
-exports.getcurrentUser = (id) => {
-    return joinedUsers.find(user => user.room === id);
 }
 
 exports.getOnlineusers =  () =>{
