@@ -42,15 +42,15 @@ io.sockets.on('connection', function(socket){
   // console.log("User Connected");
   socket.on('message',(message)=>{
     messageControl.sendMessage(message);
-    socket.broadcast.to(user.room).emit('new-message', message);
+    socket.broadcast.emit('new-message', message);
   })
 
   socket.on('typing', (data)=>{
-   socket.to(user.room).emit('typing', data);
+   socket.broadcast.emit('typing', data);
   })
 
   socket.on('nottyping', data =>{
-    socket.to(user.room).emit('nottyping',data);
+    socket.broadcast.emit('nottyping',data);
   })
 
   socket.on('onlogin',data =>{

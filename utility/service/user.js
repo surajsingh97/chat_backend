@@ -23,8 +23,9 @@ exports.getOnlineusers =  () =>{
     return data;
 }
 
-exports.showlastmessageData = (req)=>{
-    let chat =  message.find().select({ "chats": { "$slice": -1 }});
+exports.showlastmessageData = async (req)=>{
+    let chat =  await message.find().select({ "chats": { "$slice": -1 }});
+    console.log(chat);
     return chat;
     
 }
