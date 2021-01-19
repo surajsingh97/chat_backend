@@ -40,17 +40,27 @@ app.use('/',messageRoute);
 
 io.sockets.on('connection', function(socket){
   // console.log("User Connected");
+  socket.on('joined', (id) => {
+    const user = users.userJoin(socket.id, id);
+    socket.join(user.room);
+  });
   socket.on('message',(message)=>{
+    const user = users.getCurrentUser(socket.id,message.friendId);
+    console.log(user)
     messageControl.sendMessage(message);
-    socket.broadcast.emit('new-message', message);
+    socket.broadcast.to(user.room).emit('new-message', message);
   })
 
   socket.on('typing', (data)=>{
-   socket.broadcast.emit('typing', data);
+   const user = users.getCurrentUser(socket.id,data);
+   console.log(user);
+   socket.broadcast.to(user.room).emit('typing', data);
   })
 
   socket.on('nottyping', data =>{
-    socket.broadcast.emit('nottyping',data);
+    const user = users.getCurrentUser(socket.id,data);
+    console.log(user)
+    socket.broadcast.to(user.room).emit('nottyping',data);
   })
 
   socket.on('onlogin',data =>{
